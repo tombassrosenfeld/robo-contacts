@@ -1,5 +1,7 @@
 import React, { Component, } from 'react';
-import { StyleSheet, View, Image, Text,  } from 'react-native';
+import { StyleSheet, View, Text, } from 'react-native';
+import Image from 'react-native-image-progress';
+import ProgressBar from 'react-native-progress/Bar';
 
 
 
@@ -34,6 +36,7 @@ class Detail extends Component {
 				style={ [styles.imageContainer, ] }
 				>
 					<Image
+						indicator={ ProgressBar } 
 						style={ styles.image } 
 						source={{ uri: picture }}
 					/>

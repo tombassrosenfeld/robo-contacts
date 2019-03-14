@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 83588,
-  "expoServerNgrokUrl": "https://ua-pbg.anonymous.contacts.exp.direct",
-  "packagerNgrokUrl": "https://packager.ua-pbg.anonymous.contacts.exp.direct",
-  "ngrokPid": 83608,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }

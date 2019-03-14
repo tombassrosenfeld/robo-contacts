@@ -1,7 +1,8 @@
 import React, { Component, } from 'react';
-import { StyleSheet, View, FlatList, Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, FlatList, Text, TouchableHighlight, Image } from 'react-native';
 
-import contactList from '../contact-list.json'
+
+import contactList from '../contact-list.json';
 
 import axios from 'axios';
 
@@ -36,23 +37,52 @@ class List extends Component {
 		this.props.navigation.navigate('Detail', { 
 			contact: item,
 		})
-
 	}
 
+  componentDidMount() {
+		this.getContent();
+	}
 
+	refreshData() {
+		this.getContent()
+	}
 
+	getContent() {
+		this.setState ({
+			refreshing: true,
+		})
+		axios.get('https://robocontacts.herokuapp.com/api/contacts?random').then(({ data }) => {
+			this.setState({
+				contacts: data,
+				refreshing: false,
+			})
+		})
+	}
 
 	renderItem({ item }) {
-		return (
-			<TouchableHighlight
-				style={ styles.listItem }
-				underlayColor='#e4e4e4'
-				onPress={ () => this.clickHandler( item ) }
-				>
-				<Text
-					style={ styles.listText }
-					>{ item.name }</Text>
-			</TouchableHighlight>
+	return (
+		<TouchableHighlight
+			
+			underlayColor='#e4e4e4'
+			onPress={ () => this.clickHandler( item ) }
+			style={[]}
+			>
+			<View style={[styles.listItem]}>
+				<Image
+					source={{ uri: item.picture }}
+					style={ styles.avatar }
+				/>
+				<View>
+					<Text
+						style={[styles.listText]}
+						>{ item.name }</Text>
+					<Text
+						style={[ styles.listSub]}
+						>{ item.company }</Text>
+				</View>
+				
+			</View>
+		</TouchableHighlight>
 		);
 	}
 
@@ -65,63 +95,59 @@ class List extends Component {
     	return `${index}`; 
   	}
 
-  	componentDidMount() {
-		this.getContent();
-	}
-
-	refreshData() {
-		this.getContent()
-	}
-
-  	getContent() {
-  		this.setState ({
-  			refreshing: true,
-  		})
-  		axios.get('https://robocontacts.herokuapp.com/api/contacts?random').then(({ data }) => {
-  			this.setState({
-  				contacts: data,
-  				refreshing: false,
-  			})
-  		})
-  	}
-
-
-
 	render(){
 		const contacts = this.state.contacts;
 		console.log(contacts)
 
 		return(
-			<FlatList 
-				onRefresh={ this.refreshData }
-				refreshing={ this.state.refreshing }
-				data={ contacts } 
-				renderItem={ this.renderItem } 
-				keyExtractor={ this.keyExtractor }
-				ItemSeparatorComponent={this.renderSeparator}
-			/>
+			<View
+				style={[ ]}
+				>	
+				<FlatList 
+					onRefresh={ this.refreshData }
+					refreshing={ this.state.refreshing }
+					data={ contacts } 
+					renderItem={ this.renderItem } 
+					keyExtractor={ this.keyExtractor }
+					ItemSeparatorComponent={this.renderSeparator}
+
+
+				/>
+			</View>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    textAlign: 'left',
-    justifyContent: 'center',
-  },
 
   listItem: {
   	height: 50,
-  	justifyContent: 'center',
-
+  	
+  	flexDirection: 'row',
+  	alignItems: 'center',
   },
 
   listText: {
   	fontSize: 18,
-  	marginHorizontal: 10,
-  }
+  	marginHorizontal: 20,
+  	justifyContent: 'center',
+  },
+
+	listSub: {
+	  fontSize: 18,
+	  marginHorizontal: 20,
+	  color: 'grey',
+	  justifyContent: 'center',
+	},
+
+	avatar: {
+		height: 50,
+		width: 50,
+		borderRadius: 25,
+		alignItems: 'flex-start',
+	},
+
+	
 
   
 });
