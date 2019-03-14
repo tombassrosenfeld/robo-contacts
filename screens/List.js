@@ -3,6 +3,8 @@ import { StyleSheet, View, FlatList, Text, TouchableHighlight } from 'react-nati
 
 import contactList from '../contact-list.json'
 
+import axios from 'axios';
+
 
 class List extends Component {
 
@@ -15,11 +17,18 @@ class List extends Component {
 	constructor(props) {
 		super(props)
 
+		this.state={
+			contacts: [],
+			refreshing: false,
+		}
+
 
 		this.renderItem = this.renderItem.bind(this);
 		this.keyExtractor = this.keyExtractor.bind(this);
 		this.clickHandler = this.clickHandler.bind(this);
 		this.renderSeparator = this.renderSeparator.bind(this);
+		this.componentDidMount = this.componentDidMount.bind(this);
+		this.refreshData = this.refreshData.bind(this);
 		
 	}
 
@@ -29,6 +38,8 @@ class List extends Component {
 		})
 
 	}
+
+
 
 
 	renderItem({ item }) {
@@ -48,19 +59,42 @@ class List extends Component {
 	renderSeparator() {
     const style = { height: 1, backgroundColor: '#ddd' };
     return <View style={ style } />;
-  }
+  	}
 
 	keyExtractor( name, index ) {
     	return `${index}`; 
   	}
 
+  	componentDidMount() {
+		this.getContent();
+	}
+
+	refreshData() {
+		this.getContent()
+	}
+
+  	getContent() {
+  		this.setState ({
+  			refreshing: true,
+  		})
+  		axios.get('https://robocontacts.herokuapp.com/api/contacts?random').then(({ data }) => {
+  			this.setState({
+  				contacts: data,
+  				refreshing: false,
+  			})
+  		})
+  	}
+
+
 
 	render(){
-		const contacts = contactList;
+		const contacts = this.state.contacts;
 		console.log(contacts)
 
 		return(
 			<FlatList 
+				onRefresh={ this.refreshData }
+				refreshing={ this.state.refreshing }
 				data={ contacts } 
 				renderItem={ this.renderItem } 
 				keyExtractor={ this.keyExtractor }
