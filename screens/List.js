@@ -1,19 +1,10 @@
 import React, { Component, } from 'react';
 import { StyleSheet, View, FlatList, Text, TouchableHighlight, Image } from 'react-native';
 
-
-import contactList from '../contact-list.json';
-
 import axios from 'axios';
 
 
 class List extends Component {
-
-	static navigationOptions = {
-
-	    title: 'Contacts',
-	    
-  	}
 
 	constructor(props) {
 		super(props)
@@ -23,7 +14,6 @@ class List extends Component {
 			refreshing: false,
 		}
 
-
 		this.renderItem = this.renderItem.bind(this);
 		this.keyExtractor = this.keyExtractor.bind(this);
 		this.clickHandler = this.clickHandler.bind(this);
@@ -32,6 +22,10 @@ class List extends Component {
 		this.refreshData = this.refreshData.bind(this);
 		
 	}
+
+	static navigationOptions = {
+	  title: 'Contacts',
+  }
 
 	clickHandler( item ) {
 		this.props.navigation.navigate('Detail', { 
@@ -60,35 +54,33 @@ class List extends Component {
 	}
 
 	renderItem({ item }) {
-	return (
-		<TouchableHighlight
-			
-			underlayColor='#e4e4e4'
-			onPress={ () => this.clickHandler( item ) }
-			style={[]}
-			>
-			<View style={[styles.listItem]}>
-				<Image
-					source={{ uri: item.picture }}
-					style={ styles.avatar }
-				/>
-				<View>
-					<Text
-						style={[styles.listText]}
-						>{ item.name }</Text>
-					<Text
-						style={[ styles.listSub]}
-						>{ item.company }</Text>
-				</View>
+		return (
+			<TouchableHighlight
 				
-			</View>
-		</TouchableHighlight>
+				underlayColor='#e4e4e4'
+				onPress={ () => this.clickHandler( item ) }
+				style={[]}
+				>
+				<View style={[styles.listItem]}>
+					<Image
+						source={{ uri: item.picture }}
+						style={ styles.avatar }
+					/>
+					<View>
+						<Text
+							style={[styles.listText]}
+							>{ item.name }</Text>
+						<Text
+							style={[ styles.listSub]}
+							>{ item.company }</Text>
+					</View>
+				</View>
+			</TouchableHighlight>
 		);
 	}
 
 	renderSeparator() {
-    const style = { height: 1, backgroundColor: '#ddd' };
-    return <View style={ style } />;
+    return <View style={ styles.separator } />;
   	}
 
 	keyExtractor( name, index ) {
@@ -110,8 +102,6 @@ class List extends Component {
 					renderItem={ this.renderItem } 
 					keyExtractor={ this.keyExtractor }
 					ItemSeparatorComponent={this.renderSeparator}
-
-
 				/>
 			</View>
 		);
@@ -122,7 +112,6 @@ const styles = StyleSheet.create({
 
   listItem: {
   	height: 50,
-  	
   	flexDirection: 'row',
   	alignItems: 'center',
   },
@@ -135,8 +124,8 @@ const styles = StyleSheet.create({
 
 	listSub: {
 	  fontSize: 18,
-	  marginHorizontal: 20,
 	  color: 'grey',
+	  marginHorizontal: 20,
 	  justifyContent: 'center',
 	},
 
@@ -147,9 +136,10 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 	},
 
-	
+	separator: {
+		height: 1, backgroundColor: '#ddd',
+	}
 
-  
 });
 
 export default List;

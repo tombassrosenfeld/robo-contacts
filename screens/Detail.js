@@ -3,16 +3,11 @@ import { StyleSheet, View, Text, } from 'react-native';
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
 
-
-
-
 class Detail extends Component {
 
 	constructor(props) {
 		super(props)
-		
 	}
-
 
 	static navigationOptions = ({ navigation }) => ({
 	
@@ -27,14 +22,11 @@ class Detail extends Component {
 
 		const { name, picture, gender, address, company, filmName } = this.props.navigation.getParam( 'contact' );
 		
-
-
-
 		return(
 			<View>
 				<View
 				style={ [styles.imageContainer, ] }
-				>
+					>
 					<Image
 						indicator={ ProgressBar } 
 						style={ styles.image } 
@@ -42,7 +34,6 @@ class Detail extends Component {
 					/>
 				</View>
 				<View>
-					
 					<Text
 						style={ styles.detailText }
 						>{ name } is { this.capitalize( gender ) }.</Text>
@@ -55,35 +46,23 @@ class Detail extends Component {
 					<Text
 						style={ styles.detailText }
 						>{ gender === 'male' ? 'His' : 'Her' } favourite film is { filmName }.</Text>
-
 				</View>
-
 			</View>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-  },
 
   imageContainer: {
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
   },
 
   image: {
   	marginBottom: 10,
   	height: 200,
   	width: 200,
-  	alignItems: 'center',
   },
 
   detailText: {
